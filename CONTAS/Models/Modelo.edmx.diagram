@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b20f200ae3a54b0b9f23f4740d52a0e5" Name="Diagram1">
+        <EntityTypeShape EntityType="CONTASModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONTASModel.tb_asistencia_p" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONTASModel.tb_categoria_persona_m" Width="1.5" PointX="0.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONTASModel.tb_persona_m" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CONTASModel.tb_usuarios_colegio_m" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="CONTASModel.FK_tb_asistencia_p_tb_usuarios_colegio_m" ManuallyRouted="false" />
+        <AssociationConnector Association="CONTASModel.FK_tb_usuarios_colegio_m_tb_categoria_persona_m" ManuallyRouted="false" />
+        <AssociationConnector Association="CONTASModel.FK_tb_usuarios_colegio_m_tb_persona_m" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

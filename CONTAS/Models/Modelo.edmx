@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CONTASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tb_asistencia_p">
+          <Key>
+            <PropertyRef Name="id_asistencia" />
+          </Key>
+          <Property Name="id_asistencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha_registro" Type="datetime" />
+          <Property Name="id_usuarios_colegio" Type="int" />
+        </EntityType>
+        <EntityType Name="tb_categoria_persona_m">
+          <Key>
+            <PropertyRef Name="id_categoria_persona" />
+          </Key>
+          <Property Name="id_categoria_persona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion_categoria_persona" Type="varchar" MaxLength="500" />
+          <Property Name="fecha_registro" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tb_persona_m">
+          <Key>
+            <PropertyRef Name="id_persona" />
+          </Key>
+          <Property Name="id_persona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_persona" Type="varchar" MaxLength="250" />
+          <Property Name="fecha_registro" Type="datetime" />
+          <Property Name="num_documento" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tb_usuarios_colegio_m">
+          <Key>
+            <PropertyRef Name="id_usuarios_colegio" />
+          </Key>
+          <Property Name="id_usuarios_colegio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_persona" Type="int" />
+          <Property Name="id_categoria_persona" Type="int" />
+          <Property Name="fecha_registro" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_tb_asistencia_p_tb_usuarios_colegio_m">
+          <End Role="tb_usuarios_colegio_m" Type="Self.tb_usuarios_colegio_m" Multiplicity="0..1" />
+          <End Role="tb_asistencia_p" Type="Self.tb_asistencia_p" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_usuarios_colegio_m">
+              <PropertyRef Name="id_usuarios_colegio" />
+            </Principal>
+            <Dependent Role="tb_asistencia_p">
+              <PropertyRef Name="id_usuarios_colegio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_usuarios_colegio_m_tb_categoria_persona_m">
+          <End Role="tb_categoria_persona_m" Type="Self.tb_categoria_persona_m" Multiplicity="0..1" />
+          <End Role="tb_usuarios_colegio_m" Type="Self.tb_usuarios_colegio_m" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_categoria_persona_m">
+              <PropertyRef Name="id_categoria_persona" />
+            </Principal>
+            <Dependent Role="tb_usuarios_colegio_m">
+              <PropertyRef Name="id_categoria_persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_usuarios_colegio_m_tb_persona_m">
+          <End Role="tb_persona_m" Type="Self.tb_persona_m" Multiplicity="0..1" />
+          <End Role="tb_usuarios_colegio_m" Type="Self.tb_usuarios_colegio_m" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_persona_m">
+              <PropertyRef Name="id_persona" />
+            </Principal>
+            <Dependent Role="tb_usuarios_colegio_m">
+              <PropertyRef Name="id_persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_personas_que_marcaron_hoy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="CONTASModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_asistencia_p" EntityType="Self.tb_asistencia_p" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_categoria_persona_m" EntityType="Self.tb_categoria_persona_m" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_persona_m" EntityType="Self.tb_persona_m" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_usuarios_colegio_m" EntityType="Self.tb_usuarios_colegio_m" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tb_asistencia_p_tb_usuarios_colegio_m" Association="Self.FK_tb_asistencia_p_tb_usuarios_colegio_m">
+            <End Role="tb_usuarios_colegio_m" EntitySet="tb_usuarios_colegio_m" />
+            <End Role="tb_asistencia_p" EntitySet="tb_asistencia_p" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_usuarios_colegio_m_tb_categoria_persona_m" Association="Self.FK_tb_usuarios_colegio_m_tb_categoria_persona_m">
+            <End Role="tb_categoria_persona_m" EntitySet="tb_categoria_persona_m" />
+            <End Role="tb_usuarios_colegio_m" EntitySet="tb_usuarios_colegio_m" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_usuarios_colegio_m_tb_persona_m" Association="Self.FK_tb_usuarios_colegio_m_tb_persona_m">
+            <End Role="tb_persona_m" EntitySet="tb_persona_m" />
+            <End Role="tb_usuarios_colegio_m" EntitySet="tb_usuarios_colegio_m" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CONTASModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tb_asistencia_p">
+          <Key>
+            <PropertyRef Name="id_asistencia" />
+          </Key>
+          <Property Name="id_asistencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
+          <Property Name="id_usuarios_colegio" Type="Int32" />
+          <NavigationProperty Name="tb_usuarios_colegio_m" Relationship="Self.FK_tb_asistencia_p_tb_usuarios_colegio_m" FromRole="tb_asistencia_p" ToRole="tb_usuarios_colegio_m" />
+        </EntityType>
+        <EntityType Name="tb_categoria_persona_m">
+          <Key>
+            <PropertyRef Name="id_categoria_persona" />
+          </Key>
+          <Property Name="id_categoria_persona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion_categoria_persona" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tb_usuarios_colegio_m" Relationship="Self.FK_tb_usuarios_colegio_m_tb_categoria_persona_m" FromRole="tb_categoria_persona_m" ToRole="tb_usuarios_colegio_m" />
+        </EntityType>
+        <EntityType Name="tb_persona_m">
+          <Key>
+            <PropertyRef Name="id_persona" />
+          </Key>
+          <Property Name="id_persona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_persona" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
+          <Property Name="num_documento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tb_usuarios_colegio_m" Relationship="Self.FK_tb_usuarios_colegio_m_tb_persona_m" FromRole="tb_persona_m" ToRole="tb_usuarios_colegio_m" />
+        </EntityType>
+        <EntityType Name="tb_usuarios_colegio_m">
+          <Key>
+            <PropertyRef Name="id_usuarios_colegio" />
+          </Key>
+          <Property Name="id_usuarios_colegio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_persona" Type="Int32" />
+          <Property Name="id_categoria_persona" Type="Int32" />
+          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tb_asistencia_p" Relationship="Self.FK_tb_asistencia_p_tb_usuarios_colegio_m" FromRole="tb_usuarios_colegio_m" ToRole="tb_asistencia_p" />
+          <NavigationProperty Name="tb_categoria_persona_m" Relationship="Self.FK_tb_usuarios_colegio_m_tb_categoria_persona_m" FromRole="tb_usuarios_colegio_m" ToRole="tb_categoria_persona_m" />
+          <NavigationProperty Name="tb_persona_m" Relationship="Self.FK_tb_usuarios_colegio_m_tb_persona_m" FromRole="tb_usuarios_colegio_m" ToRole="tb_persona_m" />
+        </EntityType>
+        <Association Name="FK_tb_asistencia_p_tb_usuarios_colegio_m">
+          <End Role="tb_usuarios_colegio_m" Type="Self.tb_usuarios_colegio_m" Multiplicity="0..1" />
+          <End Role="tb_asistencia_p" Type="Self.tb_asistencia_p" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_usuarios_colegio_m">
+              <PropertyRef Name="id_usuarios_colegio" />
+            </Principal>
+            <Dependent Role="tb_asistencia_p">
+              <PropertyRef Name="id_usuarios_colegio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_usuarios_colegio_m_tb_categoria_persona_m">
+          <End Role="tb_categoria_persona_m" Type="Self.tb_categoria_persona_m" Multiplicity="0..1" />
+          <End Role="tb_usuarios_colegio_m" Type="Self.tb_usuarios_colegio_m" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_categoria_persona_m">
+              <PropertyRef Name="id_categoria_persona" />
+            </Principal>
+            <Dependent Role="tb_usuarios_colegio_m">
+              <PropertyRef Name="id_categoria_persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tb_usuarios_colegio_m_tb_persona_m">
+          <End Role="tb_persona_m" Type="Self.tb_persona_m" Multiplicity="0..1" />
+          <End Role="tb_usuarios_colegio_m" Type="Self.tb_usuarios_colegio_m" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_persona_m">
+              <PropertyRef Name="id_persona" />
+            </Principal>
+            <Dependent Role="tb_usuarios_colegio_m">
+              <PropertyRef Name="id_persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CONTASEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tb_asistencia_p" EntityType="Self.tb_asistencia_p" />
+          <EntitySet Name="tb_categoria_persona_m" EntityType="Self.tb_categoria_persona_m" />
+          <EntitySet Name="tb_persona_m" EntityType="Self.tb_persona_m" />
+          <EntitySet Name="tb_usuarios_colegio_m" EntityType="Self.tb_usuarios_colegio_m" />
+          <AssociationSet Name="FK_tb_asistencia_p_tb_usuarios_colegio_m" Association="Self.FK_tb_asistencia_p_tb_usuarios_colegio_m">
+            <End Role="tb_usuarios_colegio_m" EntitySet="tb_usuarios_colegio_m" />
+            <End Role="tb_asistencia_p" EntitySet="tb_asistencia_p" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_usuarios_colegio_m_tb_categoria_persona_m" Association="Self.FK_tb_usuarios_colegio_m_tb_categoria_persona_m">
+            <End Role="tb_categoria_persona_m" EntitySet="tb_categoria_persona_m" />
+            <End Role="tb_usuarios_colegio_m" EntitySet="tb_usuarios_colegio_m" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tb_usuarios_colegio_m_tb_persona_m" Association="Self.FK_tb_usuarios_colegio_m_tb_persona_m">
+            <End Role="tb_persona_m" EntitySet="tb_persona_m" />
+            <End Role="tb_usuarios_colegio_m" EntitySet="tb_usuarios_colegio_m" />
+          </AssociationSet>
+          <FunctionImport Name="sp_personas_que_marcaron_hoy" ReturnType="Collection(CONTASModel.sp_personas_que_marcaron_hoy_Result)" />
+        </EntityContainer>
+        <ComplexType Name="sp_personas_que_marcaron_hoy_Result">
+          <Property Type="String" Name="Categorias" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Marcaciones" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CONTASModelStoreContainer" CdmEntityContainer="CONTASEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CONTASModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_asistencia_p">
+            <EntityTypeMapping TypeName="CONTASModel.tb_asistencia_p">
+              <MappingFragment StoreEntitySet="tb_asistencia_p">
+                <ScalarProperty Name="id_asistencia" ColumnName="id_asistencia" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="id_usuarios_colegio" ColumnName="id_usuarios_colegio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_categoria_persona_m">
+            <EntityTypeMapping TypeName="CONTASModel.tb_categoria_persona_m">
+              <MappingFragment StoreEntitySet="tb_categoria_persona_m">
+                <ScalarProperty Name="id_categoria_persona" ColumnName="id_categoria_persona" />
+                <ScalarProperty Name="descripcion_categoria_persona" ColumnName="descripcion_categoria_persona" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_persona_m">
+            <EntityTypeMapping TypeName="CONTASModel.tb_persona_m">
+              <MappingFragment StoreEntitySet="tb_persona_m">
+                <ScalarProperty Name="id_persona" ColumnName="id_persona" />
+                <ScalarProperty Name="nombre_persona" ColumnName="nombre_persona" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="num_documento" ColumnName="num_documento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_usuarios_colegio_m">
+            <EntityTypeMapping TypeName="CONTASModel.tb_usuarios_colegio_m">
+              <MappingFragment StoreEntitySet="tb_usuarios_colegio_m">
+                <ScalarProperty Name="id_usuarios_colegio" ColumnName="id_usuarios_colegio" />
+                <ScalarProperty Name="id_persona" ColumnName="id_persona" />
+                <ScalarProperty Name="id_categoria_persona" ColumnName="id_categoria_persona" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_personas_que_marcaron_hoy" FunctionName="CONTASModel.Store.sp_personas_que_marcaron_hoy">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CONTASModel.sp_personas_que_marcaron_hoy_Result">
+                <ScalarProperty Name="Categorias" ColumnName="Categorias" />
+                <ScalarProperty Name="Marcaciones" ColumnName="Marcaciones" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

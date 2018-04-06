@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Marcaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Marcaciones</h2>
+<br />
+<div class="row">
+    <br />
+    <div class="col-md-4">
+        <input type="text" id="codigo" class="form-control" placeholder="Ingresar su Código" />
+    </div>
+    <div class="col-md-4">
+        <input type="submit" id="boton" class="btn btn-info" value="Registrar" />
+    </div>
+</div>
+<br />
+        <div id="ListaMarcaciones"></div>
+
+        <script>
+
+            $(document).ready(function () {
+                $("#boton").click(function (evento) {
+
+                    if ($("#codigo").val() == "") {
+                        alert("Ingresar un numero");
+                        return false;
+                    }
+                    $("#ListaMarcaciones").empty();
+                    $(this).attr("disabled", true);
+                    var url = "@Url.Action("ListaDeMarcaciones", "Asistencia")";
+                    var codigo = $("#codigo").val();
+                    var data = { id_usuarios_colegio: codigo };
+
+                    $.get(url, data).done(function (data) {
+                        $("#ListaMarcaciones").append(data);
+                    })
+                    $(this).attr("disabled", false);     
+                });
+            })
+
+        </script>

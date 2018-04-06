@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CONTASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tb_asistencia_p">
+    <Key>
+      <PropertyRef Name="id_asistencia" />
+    </Key>
+    <Property Name="id_asistencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fecha_registro" Type="datetime" />
+    <Property Name="id_usuarios_colegio" Type="int" />
+  </EntityType>
+  <EntityType Name="tb_categoria_persona_m">
+    <Key>
+      <PropertyRef Name="id_categoria_persona" />
+    </Key>
+    <Property Name="id_categoria_persona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="descripcion_categoria_persona" Type="varchar" MaxLength="500" />
+    <Property Name="fecha_registro" Type="datetime" />
+  </EntityType>
+  <EntityType Name="tb_persona_m">
+    <Key>
+      <PropertyRef Name="id_persona" />
+    </Key>
+    <Property Name="id_persona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre_persona" Type="varchar" MaxLength="250" />
+    <Property Name="fecha_registro" Type="datetime" />
+    <Property Name="num_documento" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tb_usuarios_colegio_m">
+    <Key>
+      <PropertyRef Name="id_usuarios_colegio" />
+    </Key>
+    <Property Name="id_usuarios_colegio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_persona" Type="int" />
+    <Property Name="id_categoria_persona" Type="int" />
+    <Property Name="fecha_registro" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_tb_asistencia_p_tb_usuarios_colegio_m">
+    <End Role="tb_usuarios_colegio_m" Type="Self.tb_usuarios_colegio_m" Multiplicity="0..1" />
+    <End Role="tb_asistencia_p" Type="Self.tb_asistencia_p" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_usuarios_colegio_m">
+        <PropertyRef Name="id_usuarios_colegio" />
+      </Principal>
+      <Dependent Role="tb_asistencia_p">
+        <PropertyRef Name="id_usuarios_colegio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_usuarios_colegio_m_tb_categoria_persona_m">
+    <End Role="tb_categoria_persona_m" Type="Self.tb_categoria_persona_m" Multiplicity="0..1" />
+    <End Role="tb_usuarios_colegio_m" Type="Self.tb_usuarios_colegio_m" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_categoria_persona_m">
+        <PropertyRef Name="id_categoria_persona" />
+      </Principal>
+      <Dependent Role="tb_usuarios_colegio_m">
+        <PropertyRef Name="id_categoria_persona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tb_usuarios_colegio_m_tb_persona_m">
+    <End Role="tb_persona_m" Type="Self.tb_persona_m" Multiplicity="0..1" />
+    <End Role="tb_usuarios_colegio_m" Type="Self.tb_usuarios_colegio_m" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_persona_m">
+        <PropertyRef Name="id_persona" />
+      </Principal>
+      <Dependent Role="tb_usuarios_colegio_m">
+        <PropertyRef Name="id_persona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="sp_personas_que_marcaron_hoy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="CONTASModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_asistencia_p" EntityType="Self.tb_asistencia_p" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_categoria_persona_m" EntityType="Self.tb_categoria_persona_m" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_persona_m" EntityType="Self.tb_persona_m" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tb_usuarios_colegio_m" EntityType="Self.tb_usuarios_colegio_m" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tb_asistencia_p_tb_usuarios_colegio_m" Association="Self.FK_tb_asistencia_p_tb_usuarios_colegio_m">
+      <End Role="tb_usuarios_colegio_m" EntitySet="tb_usuarios_colegio_m" />
+      <End Role="tb_asistencia_p" EntitySet="tb_asistencia_p" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_usuarios_colegio_m_tb_categoria_persona_m" Association="Self.FK_tb_usuarios_colegio_m_tb_categoria_persona_m">
+      <End Role="tb_categoria_persona_m" EntitySet="tb_categoria_persona_m" />
+      <End Role="tb_usuarios_colegio_m" EntitySet="tb_usuarios_colegio_m" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tb_usuarios_colegio_m_tb_persona_m" Association="Self.FK_tb_usuarios_colegio_m_tb_persona_m">
+      <End Role="tb_persona_m" EntitySet="tb_persona_m" />
+      <End Role="tb_usuarios_colegio_m" EntitySet="tb_usuarios_colegio_m" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Registrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+     <h2>Registrar Marcación</h2>   
+<br />
+
+
+<div id="div-alerta" >
+  
+</div>
+
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <input type="text" id="codigo" class="form-control" placeholder="Ingresar su Código" />
+    </div>
+    <div class="col-md-4">
+        <input type="submit" id="boton" class="btn btn-info" value="Registrar" />
+    </div>
+</div>
+<br />
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#boton").click(function (evento) {
+
+            if ($("#codigo").val() == "" ) {
+                alert("Ingresar un numero");
+                return false;
+            }
+
+            var url= "@Url.Action("RegistrarMarcacions","Asistencia")" ;
+            var codigo = $("#codigo").val();
+            var data = { codigo: codigo };
+
+            $.post(url, data).done(function (data) {
+                if (data.Ok) {
+                    $("#div-alerta").removeClass("alert alert-danger").addClass("alert alert-success").slideDown(200);
+                    $('input[type="text"]').val('');
+                } else {
+                    $("#div-alerta").removeClass("alert alert-success").addClass("alert alert-danger").slideDown(200);
+                }
+                $("#div-alerta").html(data.Mensaje)
+
+            }).fail(error);
+
+            
+
+            function error(err) {
+                console.log(err.responseText);
+              
+            }
+
+            $('#div-alerta').fadeIn();
+            setTimeout(function () {
+                $("#div-alerta").fadeOut();
+            }, 4000);
+            //$(".close").click(function () {
+            //    $(this).parent().slideUp(200);
+
+            //});
+           
+        });
+
+        
+
+
+    })
+
+</script>

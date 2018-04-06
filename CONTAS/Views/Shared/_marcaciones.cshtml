@@ -1,0 +1,21 @@
+﻿@model List<CONTAS.Models.tb_asistencia_p>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="alert alert-primary">Numero de Registros: @Model.Count()</div>
+        <br />
+        <table class="table">
+
+            <tr>
+                <th>Marcaciones</th>
+            </tr>
+            @foreach (var marcaciones in Model)
+            {
+
+                <tr>
+                    <td>@marcaciones.fecha_registro</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
